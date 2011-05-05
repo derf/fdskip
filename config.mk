@@ -7,7 +7,6 @@ PREFIX ?= /usr/local
 main_dir = ${DESTDIR}${PREFIX}
 man_dir = ${main_dir}/share/man
 bin_dir = ${main_dir}/bin
-doc_dir = ${main_dir}/share/doc/skipr
 
 # default CFLAGS
 CFLAGS ?= -g -O2
