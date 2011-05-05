@@ -1,6 +1,9 @@
 include config.mk
 
-all: src/skipr
+all: src/skipr build-man
+
+build-man:
+	@${MAKE} -C man
 
 src/skipr: src/main.c
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $<
@@ -18,6 +21,7 @@ uninstall:
 	rm -f ${man_dir}/man1/skipr.1
 
 clean:
+	@${MAKE} -C man clean
 	rm -f src/skipr
 
-.PHONY: all install uninstall clean
+.PHONY: all install uninstall clean build-man

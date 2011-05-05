@@ -1,0 +1,103 @@
+.Dd $DATE$
+.Dt FOO 1
+.Os
+.
+.
+.Sh NAME
+.
+.Nm fdskip
+.Nd Make floppy drive head seek for various durations
+.
+.
+.Sh SYNOPSIS
+.
+.Nm
+.Ar device
+.Op Ar interval1
+.Op Ar interval2
+.Op ...
+.Op Ar intervaln
+.
+.
+.Sh VERSION
+.
+This manual documents
+.Nm
+version $VERSION$
+.
+.
+.Sh DESCRIPTION
+.
+.Nm
+writes null bytes to specific sectors of the floppy drive
+.Ar device ,
+causing its head to move to get there and thus producing the classic floppy
+drive sound.  The intervals it gets as commandline arguments describes the
+distance in offset between two writes.  That is, the higher the interval, the
+longer the head will move and therefore the longer it will make a sound.
+.
+.Pp
+.
+In theory, the highest possible interval is the entire disk from start to end.
+However, due to the design of
+.Nm ,
+it is recommended to only use half of it.  Otherwise, when you end up in the
+middle of the disk and then try to do a long seek, it will not be possible and
+you'll end up with a shorter one instead.
+.
+.Pp
+.
+Calling
+.Nm
+without any arguments will print out the configured recommended and maximum
+possibly intervals
+.
+.
+.Ss WARNING
+.
+As pointed out above,
+.Nm
+writes null bytes to the floppy drive.  So,
+.Em DO NOT
+use it on disks holding data.
+You have been warned.
+.
+.
+.Sh OPTIONS
+.
+None
+.
+.El
+.
+.
+.Sh RATIONALE
+.
+This software was created in an attempt to create sound with floppy drives.
+Theoretically,
+.Xr fdrawcmd 1
+would be the best choice for that, but unfortunately I only had a USB floppy
+available, which the fdutils do not recognize.
+.
+.Pp
+.
+.Nm
+Does not produce anything resembling sound, the only thing you could use it
+for is creating morse code or such.  After all, the sound frequency is fixed,
+only the duration is variable.  And even that in a quite limited way.
+.
+.Pp
+.
+I'm publishing it anyway, since I wrote it and it'd be somewhat pointless to
+simply let it rot on my disk now.  Maybe someone actually finds an interesting
+usecase for it.
+.
+.
+.Sh AUTHOR
+.
+Copyright (C) 2011 Daniel Friesel
+.Aq derf@finalrewind.org .
+.
+.
+.Sh LICENSE
+.
+You just DO WHAT THE FUCK YOU WANT TO.
