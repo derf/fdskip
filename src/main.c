@@ -31,15 +31,10 @@ void read_and_seek(int fd, int rel_offset)
 	else
 		real_offset = last_offset - rel_offset;
 
-	if ((real_offset < 0) || (real_offset > SKIPR_MAX_SEEK)) {
-		fprintf(
-				stderr,
-				"Relatev offset %d (last %d, result %d) is too high.\n"
-				"If you want to play safe, use offsets <= %d.\n",
-				rel_offset, last_offset, real_offset, SKIPR_MID
-		);
-		return;
-	}
+	if (real_offset < 0)
+		real_offset = 0;
+	else if (real_offset >= SKIPR_MAX_SEEK)
+		real_offset = SKIPR_MAX_SEEK - 1;
 
 	printf("%5d => %d\n", rel_offset, real_offset);
 
@@ -64,8 +59,8 @@ int main(int argc, char **argv)
 	}
 	else if (argc < 2) {
 		printf(
-			"writesize %d bytes -> maximum delay = %d\n",
-			SKIPR_WRITESIZE, SKIPR_MID
+			"writesize %d bytes -> maximum delay %d, recommended %d\n",
+			SKIPR_WRITESIZE, SKIPR_MAX_SEEK, SKIPR_MID
 		);
 		exit(0);
 	}
@@ -74,6 +69,9 @@ int main(int argc, char **argv)
 
 	if ((fd = open(device, O_WRONLY)) == -1)
 		die("open");
+
+	setuid(65534);
+	setgid(65534);
 
 	for (curarg = 2; curarg < argc; curarg++) {
 		read_and_seek(fd, atoi(argv[curarg]));
