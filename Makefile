@@ -1,27 +1,27 @@
 include config.mk
 
-all: src/skipr build-man
+all: src/fdskip build-man
 
 build-man:
 	@${MAKE} -C man
 
-src/skipr: src/main.c
+src/fdskip: src/main.c
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $<
 
-install: bin/skipr
+install: src/fdskip
 	@echo installing bin to ${bin_dir} and man to ${man_dir}
 	@mkdir -p ${bin_dir} ${man_dir}/man1
-	@cp src/skipr ${bin_dir}/skipr
-	@cp src/skipr.1 ${man_dir}/man1/skipr.1
-	@chmod 755 ${bin_dir}/skipr
-	@chmod 644 ${man_dir}/man1/skipr.1
+	@cp src/fdskip ${bin_dir}/fdskip
+	@cp src/fdskip.1 ${man_dir}/man1/fdskip.1
+	@chmod 755 ${bin_dir}/fdskip
+	@chmod 644 ${man_dir}/man1/fdskip.1
 
 uninstall:
-	rm -f ${bin_dir}/skipr
-	rm -f ${man_dir}/man1/skipr.1
+	rm -f ${bin_dir}/fdskip
+	rm -f ${man_dir}/man1/fdskip.1
 
 clean:
 	@${MAKE} -C man clean
-	rm -f src/skipr
+	rm -f src/fdskip
 
 .PHONY: all install uninstall clean build-man
