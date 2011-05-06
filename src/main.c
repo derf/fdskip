@@ -70,8 +70,12 @@ int main(int argc, char **argv)
 	if ((fd = open(device, O_WRONLY)) == -1)
 		die("open");
 
-	setuid(65534);
-	setgid(65534);
+	if (geteuid() == 0) {
+		if (setgid(65534) == -1)
+			perror("setgid");
+		if (setuid(65534) == -1)
+			perror("setuid");
+	}
 
 	for (curarg = 2; curarg < argc; curarg++) {
 		read_and_seek(fd, atoi(argv[curarg]));

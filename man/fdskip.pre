@@ -50,7 +50,14 @@ you'll end up with a shorter one instead.
 Calling
 .Nm
 without any arguments will print out the configured recommended and maximum
-possibly intervals
+possible intervals
+.
+.Pp
+.
+If
+.Nm
+detects that it is run as root, it will attempt to drop its privileges
+immediately after opening the floppy device.
 .
 .
 .Ss WARNING
